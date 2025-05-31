@@ -30,10 +30,6 @@ class WeatherViewModel @Inject constructor(
     private var locationUpdatesJob: Job? = null
     private var refreshJob: Job? = null
 
-    companion object {
-        const val AUTO_REFRESH_DELAY = 10000L
-    }
-
     fun initialize() {
         fetchCurrentLocationWeather()
         startAutoRefresh()
@@ -126,5 +122,9 @@ class WeatherViewModel @Inject constructor(
                     getWeatherForLocation(location)
                 }
         }
+    }
+
+    companion object {
+        const val AUTO_REFRESH_DELAY = 10000L
     }
 }

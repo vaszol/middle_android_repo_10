@@ -26,16 +26,6 @@ class LocationTracker @Inject constructor(
 
     private val isTracking = AtomicBoolean(false)
 
-    companion object {
-        private const val MIN_UPDATE_INTERVAL_MS = 5000L
-        private const val MIN_UPDATE_DISTANCE_METERS = 10f
-
-        private fun Location.toDomainLocation() = LocationYandex(
-            latitude = latitude,
-            longitude = longitude
-        )
-    }
-
     @SuppressLint("MissingPermission")
     fun locationFlow(): Flow<LocationYandex> = callbackFlow {
         if (!isTracking.compareAndSet(false, true)) {
@@ -78,5 +68,15 @@ class LocationTracker @Inject constructor(
         }
     }.distinctUntilChanged { old, new ->
         old.latitude == new.latitude && old.longitude == new.longitude
+    }
+
+    companion object {
+        private const val MIN_UPDATE_INTERVAL_MS = 5000L
+        private const val MIN_UPDATE_DISTANCE_METERS = 10f
+
+        private fun Location.toDomainLocation() = LocationYandex(
+            latitude = latitude,
+            longitude = longitude
+        )
     }
 }

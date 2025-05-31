@@ -29,10 +29,6 @@ internal class LocationRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val locationTracker: LocationTracker
 ) : LocationRepository {
-    companion object {
-        private const val UPDATE_INTERVAL_MS = 10000L
-        private const val MIN_UPDATE_INTERVAL_MS = 5000L
-    }
 
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
@@ -145,4 +141,9 @@ internal class LocationRepositoryImpl @Inject constructor(
     override suspend fun getLocationUpdates(): Flow<Location> =
         locationTracker.locationFlow()
             .flowOn(Dispatchers.IO)
+
+    companion object {
+        private const val UPDATE_INTERVAL_MS = 10000L
+        private const val MIN_UPDATE_INTERVAL_MS = 5000L
+    }
 }
